@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultrasonic Sensor Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        .sensor-data {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Ultrasonic Sensor Data</h1>
+    <div class="sensor-data">
+        Distance: <span id="distance">Fetching...</span> cm
+    </div>
+
+    <script>
+        // Function to fetch sensor data from the server
+        function fetchSensorData() {
+            fetch('/data')  // Fetch sensor data from /data endpoint
+                .then(response => response.json())
+                .then(data => {
+                    // Update the HTML with the fetched sensor data
+                    document.getElementById('distance').textContent = data.distance.toFixed(2);
+                })
+                .catch(error => {
+                    console.error('Error fetching sensor data:', error);
+                    document.getElementById('distance').textContent = 'Error';
+                });
+        }
+
+        // Fetch sensor data every 2 seconds
+        setInterval(fetchSensorData, 2000);
+    </script>
+</body>
+</html>
